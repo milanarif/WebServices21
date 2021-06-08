@@ -1,8 +1,8 @@
 package core;
 
 import com.google.gson.Gson;
-import persistence.Post;
-import persistence.PostFunctions;
+import persistpkg.Post;
+import persistpkg.PostFunctions;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ public class RequestHandler {
         };
     }
 
-    private static String head(Request request) {
+    private static String get(Request request) {
         if (request.getUrl().equals("/")) {
             return null;
         }
@@ -34,7 +34,7 @@ public class RequestHandler {
     }
 
     //Todo
-    private static String get(Request request) {
+    private static String head(Request request) {
         return null;
     }
 }

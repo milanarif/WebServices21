@@ -1,7 +1,7 @@
 module persistence {
     requires jakarta.persistence;
 
-    opens persistence to core;
+    opens persistpkg to com.google.gson, jakarta.persistence;
 
-    exports persistence;
+    exports persistpkg;
 }

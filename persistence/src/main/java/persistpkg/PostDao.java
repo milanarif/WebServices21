@@ -1,4 +1,4 @@
-package persistence;
+package persistpkg;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -7,9 +7,10 @@ import jakarta.persistence.Persistence;
 import java.util.List;
 
 public class PostDao {
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
+    private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
 
     public List<Post> getAllPosts() {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
         EntityManager em = emf.createEntityManager();
         List<Post> posts = em
                 .createQuery("Select p from Post p", Post.class)

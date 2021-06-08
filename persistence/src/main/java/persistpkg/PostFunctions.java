@@ -1,4 +1,4 @@
-package persistence;
+package persistpkg;
 
 import java.util.List;
 
@@ -6,6 +6,7 @@ public class PostFunctions {
     static PostDao postDao = new PostDao();
 
     public static List<Post> getAllPosts() {
+        System.out.println("-----");
         return postDao.getAllPosts();
     }
 

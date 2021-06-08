@@ -16,6 +16,7 @@ public class ConnectionHandler {
             //Build Request
             Request request = RequestBuilder.buildRequest(inputFromClient);
             System.out.println("Request Built");
+            System.out.println(request.toString());
 
             //Create Response
             String response = RequestHandler.handleRequest(request);

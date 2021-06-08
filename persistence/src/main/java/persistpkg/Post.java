@@ -1,4 +1,4 @@
-package persistence;
+package persistpkg;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
