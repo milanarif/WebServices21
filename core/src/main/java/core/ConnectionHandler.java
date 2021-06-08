@@ -11,16 +11,21 @@ public class ConnectionHandler {
 
             //Receive Request
             var inputFromClient = new BufferedReader(new InputStreamReader((client.getInputStream())));
+            System.out.println("Input Received");
 
             //Build Request
             Request request = RequestBuilder.buildRequest(inputFromClient);
+            System.out.println("Request Built");
 
             //Create Response
             String response = RequestHandler.handleRequest(request);
+            System.out.println("Response Created");
+            System.out.println(response);
 
             //Send Response
             var outputToClient = client.getOutputStream();
             ResponseSender.sendResponse(outputToClient, response);
+            System.out.println("Response Sent");
 
             //Close thread
             inputFromClient.close();

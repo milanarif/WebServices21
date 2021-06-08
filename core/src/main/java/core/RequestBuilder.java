@@ -12,6 +12,7 @@ public class RequestBuilder {
         String url = line.split(" ")[1];
         StringBuilder builder;
         if (type == RequestType.POST){
+            //TODO: FIX STUCK
             body = getBody(input);
         }
         return new Request(type, url, body);
@@ -19,7 +20,6 @@ public class RequestBuilder {
 
     private static String getBody(BufferedReader input) throws IOException {
         StringBuilder builder = new StringBuilder();
-        int contentLength = getContentLength(input);
         String line = input.readLine();
 
         while (!line.trim().isEmpty()) {

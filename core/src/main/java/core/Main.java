@@ -16,6 +16,7 @@ public class Main {
             ServerSocket serverSocket = new ServerSocket(80);
             while (true) {
                 Socket client = serverSocket.accept();
+                System.out.println(client.getInetAddress());
                 executorService.submit(() -> ConnectionHandler.handleConnection(client));
             }
         }
