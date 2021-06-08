@@ -25,6 +25,12 @@ public class RequestHandler {
             Gson gson = new Gson();
             return gson.toJson(posts);
         }
+        else if (request.getUrl().startsWith("/?id=")) {
+            Integer targetId = Integer.parseInt(request.getUrl().replaceAll("[^\\d.]", ""));
+            Post post = PostFunctions.getPost(targetId);
+            Gson gson = new Gson();
+            return gson.toJson(post);
+        }
         else return null;
     }
 
