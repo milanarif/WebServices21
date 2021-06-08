@@ -10,8 +10,6 @@ import java.util.List;
 public class PostDao {
     EntityManagerFactory emf = jakarta.persistence.Persistence.createEntityManagerFactory("PU");
 
-
-
     public List<Post> getAllPosts() {
         EntityManager em = emf.createEntityManager();
         List<Post> posts = em

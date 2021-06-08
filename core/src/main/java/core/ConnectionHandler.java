@@ -12,8 +12,10 @@ public class ConnectionHandler {
             //Receive Request
             var inputFromClient = new BufferedReader(new InputStreamReader((client.getInputStream())));
 
+            System.out.println("1");
             //Build Request
             Request request = RequestBuilder.buildRequest(inputFromClient);
+            System.out.println("2");
 
             //Create Response
             String response = RequestHandler.handleRequest(request);

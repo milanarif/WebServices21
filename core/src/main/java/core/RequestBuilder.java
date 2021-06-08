@@ -2,6 +2,7 @@ package core;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 public class RequestBuilder {
     private static String body;
@@ -12,13 +13,14 @@ public class RequestBuilder {
         String url = line.split(" ")[1];
         StringBuilder builder;
         if (type == RequestType.POST){
+            int length = getContentLength(input);
             //TODO: FIX STUCK
-            body = getBody(input);
+            body = getBody(input, length);
         }
         return new Request(type, url, body);
     }
 
-    private static String getBody(BufferedReader input) throws IOException {
+    private static String getBody(BufferedReader input, int length) throws IOException {
         StringBuilder builder = new StringBuilder();
         String line = input.readLine();
 
@@ -26,8 +28,10 @@ public class RequestBuilder {
             line = input.readLine();
         }
 
-        while(line != null) {
+        while(length > 0) {
+            length -= 2;
             line = input.readLine();
+            length -= line.getBytes(StandardCharsets.UTF_8).length;
             builder.append(line);
         }
         return builder.toString();

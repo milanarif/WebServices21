@@ -30,6 +30,10 @@ public class RequestHandler {
 
     //Todo
     private static String post(Request request) {
+        Gson gson = new Gson();
+        Post post = gson.fromJson(request.getBody(), Post.class);
+        PostFunctions.addPost(post);
+
         return null;
     }
 
