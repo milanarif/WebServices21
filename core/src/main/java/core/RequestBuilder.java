@@ -14,7 +14,6 @@ public class RequestBuilder {
         StringBuilder builder;
         if (type == RequestType.POST){
             int length = getContentLength(input);
-            //TODO: FIX STUCK
             body = getBody(input, length);
         }
         return new Request(type, url, body);

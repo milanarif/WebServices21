@@ -78,7 +78,7 @@ public class RequestHandler {
         else return new Response(404, 0);
     }
 
-    //Todo
+
     private static Response post(Request request) {
         Gson gson = new Gson();
         Post post = gson.fromJson(request.getBody(), Post.class);
@@ -89,7 +89,6 @@ public class RequestHandler {
         return new Response(201, length, "application/json", request.getBody());
     }
 
-    //Todo
     private static Response head(Request request) {
         Response response = get(request);
             return new Response(response.getCode(), 0, response.getContentType());
