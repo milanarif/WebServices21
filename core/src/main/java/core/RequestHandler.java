@@ -3,6 +3,7 @@ package core;
 import com.google.gson.Gson;
 import persistpkg.Post;
 import persistpkg.PostFunctions;
+import spi.Adress;
 import spi.Random;
 
 import java.util.List;
@@ -33,14 +34,18 @@ public class RequestHandler {
             Gson gson = new Gson();
             return gson.toJson(post);
         }
-        else if (request.getUrl().equals("/?random=number")) {
-            ServiceLoader<Random> temperatures = ServiceLoader.load(Random.class);
-            String temp = null;
+        else if (request.getUrl().startsWith("/?random=")) {
+            String randomType = request.getUrl().substring(request.getUrl().indexOf("=") + 1);
+            ServiceLoader<Random> randoms = ServiceLoader.load(Random.class);
+            String result = null;
 
-            for (Random random : temperatures) {
-                temp = random.getRandom();
+            for (Random random : randoms) {
+                Adress annotation = random.getClass().getAnnotation(Adress.class);
+                if (annotation.value().equals("number")) {
+                    result = random.getRandom();
+                }
             }
-            return temp;
+            return result;
         }
         else return null;
     }

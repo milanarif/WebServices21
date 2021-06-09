@@ -1,7 +1,9 @@
 package plugins;
 
+import spi.Adress;
 import spi.Random;
 
+@Adress("number")
 public class NumberRandom implements Random {
     @Override
     public String getRandom() {
