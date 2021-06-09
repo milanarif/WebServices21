@@ -6,34 +6,55 @@ import persistpkg.PostFunctions;
 import spi.Adress;
 import spi.Random;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.ServiceLoader;
 
 public class RequestHandler {
 
-    public static String handleRequest(Request request) {
+    public static Response handleRequest(Request request) {
         return switch (request.getRequestType()) {
             case GET -> get(request);
             case POST -> post(request);
             case HEAD -> head(request);
         };
     }
-
-    private static String get(Request request) {
+    //TODO!
+    private static Response get(Request request) {
         if (request.getUrl().equals("/")) {
             return null;
         }
+
         else if (request.getUrl().equals("/getAll")){
             List<Post> posts = PostFunctions.getAllPosts();
-            Gson gson = new Gson();
-            return gson.toJson(posts);
+            if (posts != null) {
+                Gson gson = new Gson();
+                String responseBody = gson.toJson(posts);
+                int length = responseBody.getBytes(StandardCharsets.UTF_8).length;
+
+                return new Response(200, length, "application/json", responseBody);
+            }
+
+            else {
+                return new Response(400, 0);
+            }
         }
+
         else if (request.getUrl().startsWith("/?id=")) {
             Integer targetId = Integer.parseInt(request.getUrl().replaceAll("[^\\d.]", ""));
             Post post = PostFunctions.getPost(targetId);
-            Gson gson = new Gson();
-            return gson.toJson(post);
+            if (post != null) {
+                Gson gson = new Gson();
+                String responseBody = gson.toJson(post);
+                int length = responseBody.getBytes(StandardCharsets.UTF_8).length;
+
+                return new Response(200, length, "application/json", responseBody);
+            }
+            else {
+                return new Response(400, 0);
+            }
         }
+
         else if (request.getUrl().startsWith("/?random=")) {
             String randomType = request.getUrl().substring(request.getUrl().indexOf("=") + 1);
             ServiceLoader<Random> randoms = ServiceLoader.load(Random.class);
@@ -45,22 +66,32 @@ public class RequestHandler {
                     result = random.getRandom();
                 }
             }
-            return result;
+            if (result == null) {
+                return new Response(400, 0);
+            }
+            else {
+                int length = result.getBytes(StandardCharsets.UTF_8).length;
+                return new Response(200, length, "text/html", result);
+            }
         }
-        else return null;
+
+        else return new Response(404, 0);
     }
 
     //Todo
-    private static String post(Request request) {
+    private static Response post(Request request) {
         Gson gson = new Gson();
         Post post = gson.fromJson(request.getBody(), Post.class);
         PostFunctions.addPost(post);
+        int length = request.getBody().getBytes(StandardCharsets.UTF_8).length;
 
-        return null;
+
+        return new Response(201, length, "application/json", request.getBody());
     }
 
     //Todo
-    private static String head(Request request) {
-        return null;
+    private static Response head(Request request) {
+        Response response = get(request);
+            return new Response(response.getCode(), 0, response.getContentType());
     }
 }

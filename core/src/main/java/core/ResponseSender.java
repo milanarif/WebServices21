@@ -5,21 +5,25 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
 public class ResponseSender {
-    public static void sendResponse(OutputStream outputToClient, String response) throws IOException {
+    public static void sendResponse(OutputStream outputToClient, Response response) throws IOException {
+        System.out.println(response.toString());
+        StringBuilder responseString = new StringBuilder();
 
-        String header = "HTTP/1.1 200 OK\r\nContent-length: " + getResponseLength(response) + "\r\n\r\n";
-        outputToClient.write(header.getBytes(StandardCharsets.UTF_8));
+        responseString.append("HTTP/1.1 ").append(response.getCode()).append("\r\n");
 
-        if (response != null) {
-            byte[] body = response.getBytes(StandardCharsets.UTF_8);
-            outputToClient.write(body);
+        responseString.append("Content-Length: ").append(response.getContentLength()).append("\r\n");
+
+        if (response.getContentType() != null) {
+            responseString.append("Content-Type: ").append(response.getContentType()).append("\r\n\r\n");
         }
-        outputToClient.flush();
-    }
 
-    public static int getResponseLength(String response) {
-        if (response == null) {
-            return 0;
-        } else return response.getBytes(StandardCharsets.UTF_8).length;
+        if (response.getBody() != null) {
+            responseString.append(response.getBody());
+        }
+
+        System.out.println("\n" + responseString);
+
+        outputToClient.write(responseString.toString().getBytes(StandardCharsets.UTF_8));
+        outputToClient.flush();
     }
 }

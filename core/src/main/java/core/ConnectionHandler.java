@@ -16,7 +16,7 @@ public class ConnectionHandler {
             Request request = RequestBuilder.buildRequest(inputFromClient);
 
             //Create Response
-            String response = RequestHandler.handleRequest(request);
+            Response response = RequestHandler.handleRequest(request);
 
             //Send Response
             var outputToClient = client.getOutputStream();
