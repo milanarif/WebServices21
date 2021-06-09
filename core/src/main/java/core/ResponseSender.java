@@ -15,6 +15,8 @@ public class ResponseSender {
 
         if (response.getContentType() != null) {
             headerString.append("Content-Type: ").append(response.getContentType()).append("\r\n\r\n");
+        } else {
+            headerString.append("\r\n");
         }
 
         outputToClient.write(headerString.toString().getBytes(StandardCharsets.UTF_8));

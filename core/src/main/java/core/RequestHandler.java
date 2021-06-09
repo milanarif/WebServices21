@@ -25,7 +25,51 @@ public class RequestHandler {
     }
     private static Response get(Request request) throws IOException {
         if (request.getUrl().equals("/")) {
+            File f = Path.of("/web/index.html").toFile();
+            if (!(f.exists() && !f.isDirectory())) {
+                return new Response("404 Not Found", 0);
+            }
+            else {
+                byte[] responseBody =  Files.readAllBytes(f.toPath());
+                return new Response("200 OK", responseBody.length, Files.probeContentType(f.toPath()), responseBody);
+            }
+        }
+
+        if (request.getUrl().equals("/png")) {
             File f = Path.of("/web/welcome.png").toFile();
+            if (!(f.exists() && !f.isDirectory())) {
+                return new Response("404 Not Found", 0);
+            }
+            else {
+                byte[] responseBody =  Files.readAllBytes(f.toPath());
+                return new Response("200 OK", responseBody.length, Files.probeContentType(f.toPath()), responseBody);
+            }
+        }
+
+        if (request.getUrl().equals("/pdf")) {
+            File f = Path.of("/web/sample.pdf").toFile();
+            if (!(f.exists() && !f.isDirectory())) {
+                return new Response("404 Not Found", 0);
+            }
+            else {
+                byte[] responseBody =  Files.readAllBytes(f.toPath());
+                return new Response("200 OK", responseBody.length, Files.probeContentType(f.toPath()), responseBody);
+            }
+        }
+
+        if (request.getUrl().equals("/css")) {
+            File f = Path.of("/web/w3.css").toFile();
+            if (!(f.exists() && !f.isDirectory())) {
+                return new Response("404 Not Found", 0);
+            }
+            else {
+                byte[] responseBody =  Files.readAllBytes(f.toPath());
+                return new Response("200 OK", responseBody.length, Files.probeContentType(f.toPath()), responseBody);
+            }
+        }
+
+        if (request.getUrl().equals("/js")) {
+            File f = Path.of("/web/HelloWorld.js").toFile();
             if (!(f.exists() && !f.isDirectory())) {
                 return new Response("404 Not Found", 0);
             }
