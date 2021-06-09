@@ -13,6 +13,7 @@
         <module>core</module>
         <module>persistence</module>
         <module>spi</module>
+        <module>datapoints</module>
     </modules>
 
     <properties>

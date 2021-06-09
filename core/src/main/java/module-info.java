@@ -1,6 +1,8 @@
+import spi.Random;
+
 module core {
-    uses spi.WeatherData;
     requires com.google.gson;
-    requires persistence;
+    uses Random;
     requires spi;
+    requires persistence;
 }
