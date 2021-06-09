@@ -2,30 +2,30 @@ package core;
 
 public class Response {
 
-    private Integer code;
+    private String code;
     private Integer contentLength;
     private String contentType;
-    private String body;
+    private byte[] body;
 
-    public Response(Integer code, Integer contentLength, String contentType) {
+    public Response(String code, Integer contentLength, String contentType) {
         this.code = code;
         this.contentLength = contentLength;
         this.contentType = contentType;
     }
 
-    public Response(Integer code, Integer contentLength, String contentType, String body) {
+    public Response(String code, Integer contentLength, String contentType, byte[] body) {
         this.code = code;
         this.contentLength = contentLength;
         this.contentType = contentType;
         this.body = body;
     }
 
-    public Response(Integer code, Integer contentLength) {
+    public Response(String code, Integer contentLength) {
         this.code = code;
         this.contentLength = contentLength;
     }
 
-    public Integer getCode() {
+    public String getCode() {
         return code;
     }
 
@@ -37,17 +37,8 @@ public class Response {
         return contentType;
     }
 
-    public String getBody() {
+    public byte[] getBody() {
         return body;
     }
 
-    @Override
-    public String toString() {
-        return "Response{" +
-                "code=" + code +
-                ", contentLength=" + contentLength +
-                ", contentType='" + contentType + '\'' +
-                ", body='" + body + '\'' +
-                '}';
-    }
 }

@@ -1,8 +1,6 @@
-import spi.Random;
-
 module core {
     requires com.google.gson;
-    uses Random;
+    uses spi.Random;
     requires spi;
     requires persistence;
 }

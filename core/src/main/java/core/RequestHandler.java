@@ -6,13 +6,17 @@ import persistpkg.PostFunctions;
 import spi.Adress;
 import spi.Random;
 
+import java.io.File;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.ServiceLoader;
 
 public class RequestHandler {
 
-    public static Response handleRequest(Request request) {
+    public static Response handleRequest(Request request) throws IOException{
         return switch (request.getRequestType()) {
             case GET -> get(request);
             case POST -> post(request);
@@ -20,23 +24,29 @@ public class RequestHandler {
         };
     }
     //TODO!
-    private static Response get(Request request) {
+    private static Response get(Request request) throws IOException {
         if (request.getUrl().equals("/")) {
-            return null;
+            File f = Path.of("/web/welcome.png").toFile();
+            if (!(f.exists() && !f.isDirectory())) {
+                return new Response("404 Not Found", 0);
+            }
+            else {
+                byte[] responseBody =  Files.readAllBytes(f.toPath());
+                return new Response("200 OK", responseBody.length, Files.probeContentType(f.toPath()), responseBody);
+            }
         }
 
         else if (request.getUrl().equals("/getAll")){
             List<Post> posts = PostFunctions.getAllPosts();
             if (posts != null) {
                 Gson gson = new Gson();
-                String responseBody = gson.toJson(posts);
-                int length = responseBody.getBytes(StandardCharsets.UTF_8).length;
+                byte[] responseBody = gson.toJson(posts).getBytes(StandardCharsets.UTF_8);
 
-                return new Response(200, length, "application/json", responseBody);
+                return new Response("200 OK", responseBody.length, "application/json", responseBody);
             }
 
             else {
-                return new Response(400, 0);
+                return new Response("404 Not Found", 0);
             }
         }
 
@@ -45,13 +55,12 @@ public class RequestHandler {
             Post post = PostFunctions.getPost(targetId);
             if (post != null) {
                 Gson gson = new Gson();
-                String responseBody = gson.toJson(post);
-                int length = responseBody.getBytes(StandardCharsets.UTF_8).length;
+                byte[] responseBody = gson.toJson(post).getBytes(StandardCharsets.UTF_8);
 
-                return new Response(200, length, "application/json", responseBody);
+                return new Response("200 OK", responseBody.length, "application/json", responseBody);
             }
             else {
-                return new Response(400, 0);
+                return new Response("404 Not Found", 0);
             }
         }
 
@@ -67,15 +76,15 @@ public class RequestHandler {
                 }
             }
             if (result == null) {
-                return new Response(400, 0);
+                return new Response("404 Post Not Found", 0);
             }
             else {
-                int length = result.getBytes(StandardCharsets.UTF_8).length;
-                return new Response(200, length, "text/html", result);
+                byte[] responseBody = result.getBytes(StandardCharsets.UTF_8);
+                return new Response("200 OK", responseBody.length, "text/plain", responseBody);
             }
         }
 
-        else return new Response(404, 0);
+        else return new Response("404 Not Found", 0);
     }
 
 
@@ -86,11 +95,12 @@ public class RequestHandler {
         int length = request.getBody().getBytes(StandardCharsets.UTF_8).length;
 
 
-        return new Response(201, length, "application/json", request.getBody());
+        return new Response("201 Created", length, "application/json", request.getBody().getBytes(StandardCharsets.UTF_8));
     }
 
-    private static Response head(Request request) {
+    private static Response head(Request request) throws IOException{
         Response response = get(request);
-            return new Response(response.getCode(), 0, response.getContentType());
+        assert response != null;
+        return new Response(response.getCode(), 0, response.getContentType());
     }
 }
