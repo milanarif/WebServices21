@@ -3,6 +3,7 @@ package core;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 public class ResponseSender {
     public static void sendResponse(OutputStream outputToClient, Response response) throws IOException {
@@ -17,6 +18,8 @@ public class ResponseSender {
         }
 
         outputToClient.write(headerString.toString().getBytes(StandardCharsets.UTF_8));
+
+        System.out.println(headerString);
 
         if (response.getBody() != null) {
             outputToClient.write(response.getBody());

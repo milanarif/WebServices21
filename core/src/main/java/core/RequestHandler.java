@@ -23,7 +23,6 @@ public class RequestHandler {
             case HEAD -> head(request);
         };
     }
-    //TODO!
     private static Response get(Request request) throws IOException {
         if (request.getUrl().equals("/")) {
             File f = Path.of("/web/welcome.png").toFile();
@@ -86,7 +85,6 @@ public class RequestHandler {
 
         else return new Response("404 Not Found", 0);
     }
-
 
     private static Response post(Request request) {
         Gson gson = new Gson();
