@@ -14,6 +14,7 @@
         <module>persistence</module>
         <module>spi</module>
         <module>datapoints</module>
+        <module>client</module>
     </modules>
 
     <properties>

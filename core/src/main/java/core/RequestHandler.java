@@ -64,7 +64,7 @@ public class RequestHandler {
             }
             else {
                 byte[] responseBody =  Files.readAllBytes(f.toPath());
-                return new Response("200 OK", responseBody.length, Files.probeContentType(f.toPath()), responseBody);
+                return new Response("200 OK", responseBody.length, "text/css", responseBody);
             }
         }
 
@@ -75,7 +75,7 @@ public class RequestHandler {
             }
             else {
                 byte[] responseBody =  Files.readAllBytes(f.toPath());
-                return new Response("200 OK", responseBody.length, Files.probeContentType(f.toPath()), responseBody);
+                return new Response("200 OK", responseBody.length, "application/javascript", responseBody);
             }
         }
 
