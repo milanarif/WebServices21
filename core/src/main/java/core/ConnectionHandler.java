@@ -10,7 +10,7 @@ public class ConnectionHandler {
         try {
 
             //Receive Request
-            var inputFromClient = new BufferedReader(new InputStreamReader((client.getInputStream())));
+            var inputFromClient = client.getInputStream();
 
             //Build Request
             Request request = RequestBuilder.buildRequest(inputFromClient);

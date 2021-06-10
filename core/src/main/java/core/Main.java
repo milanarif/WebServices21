@@ -13,7 +13,7 @@ public class Main {
         ExecutorService executorService = Executors.newCachedThreadPool();
 
         try {
-            ServerSocket serverSocket = new ServerSocket(5050);
+            ServerSocket serverSocket = new ServerSocket(80);
             while (true) {
                 Socket client = serverSocket.accept();
                 executorService.submit(() -> ConnectionHandler.handleConnection(client));

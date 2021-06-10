@@ -21,7 +21,7 @@ public class ResponseSender {
 
         outputToClient.write(headerString.toString().getBytes(StandardCharsets.UTF_8));
 
-        System.out.println(headerString);
+        //System.out.println(headerString);
 
         if (response.getBody() != null) {
             outputToClient.write(response.getBody());
